@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>AFrame Inspector</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/aframe/1.2.0/aframe.min.js"></script>
+    </head>
+
+    <body>
+        <a-scene>
+            <!-- AFrame Inspector can be called using -->
+            <!-- CTRL + ALT + I -->
+
+            <!-- Asset Management System -->
+            <a-assets>
+                <img id="floor" src="textures/rounded-brick/rounded-brick-albedo.png">
+                <img id="floor_normal" src="textures/rounded-brick/rounded-brick-normal-ogl.png">
+
+                <img id="dayclear" src="textures/sky/dayclear.png">
+
+                <a-asset-item id="lamp_post" src="models/LampPost.glb"></a-asset-item>
+                <a-asset-item id="traffic_lights"  src="models/TrafficLights.glb"></a-asset-item>
+            </a-assets>
+
+            <!-- Sky -->
+            <a-sky src="#dayclear" color="#505050" rotation="0 235 0"></a-sky>
+
+            <a-plane material="src: #floor;
+                                repeat: 15 15 15;
+                                normal-map: #floor_normal;
+                                normal-texture-repeat: 15 15 15;"
+                    scale="100 100 100"
+                    rotation="-90 0 0"
+                    shadow="receive: true"
+                    position="0 0 -50">
+            </a-plane>
+
+<!-- Default lights are added by a-scene -->
+            <!-- Ambient Light -->
+            <!-- <a-entity light="type: ambient;
+                            color: #bbb;">
+            </a-entity> -->
+
+            <!-- Directional Light -->
+            <!-- <a-entity light="type: directional;
+                            color: #ffffff;
+                            intensity: 0.6;
+                            cast-shadow: true;"
+                    position="-0.5 1 1">
+
+            </a-entity> -->
+
+<!-- Rotation -->
+            <!-- Followig code works -->
+            <a-box position="0 2 -8" 
+                    color="#AA0000" 
+                    animation="property: rotation; easing: linear; to: 0 360 0; loop: true; dur: 10000"
+                    shadow="cast: true;">
+            </a-box>
+
+            <!-- Orbiting Box -->
+            <!-- parent container is given certain properties of animation and position -->
+            <a-entity position="0 2 -8" animation="property: rotation; easing: linear; to: 0 360 0; loop: true; dur: 10000;">
+
+                <!-- Box below is offset to 3m on x axis from the parent 0 -->
+                <!-- That makes it orbit -->
+                <a-box color="#00AA00"
+                        position="3 0 0"
+                        animation="property: rotation; easing: linear; to: 0 360 0; loop: true; dur: 5000;"
+                        scale=".2 .2 .2"
+                        shadow="cast: true;"
+                        id="orbitor">
+                </a-box>
+            </a-entity>
+
+<!-- End Of Rotation -->
+
+<!-- Custom Lights -->
+            <!-- Ambient Light -->
+            <a-entity light="type: ambient;
+                            intensity: 0.2;">
+            </a-entity>
+
+            <!-- Point Light -->
+            <a-entity light="type: point;
+                            intensity: 0.8;
+                            distance: 10;
+                            castShadow:true;"
+                    position="0 5 -5">
+            </a-entity>
+
+            <!-- Spot Light -->
+            <a-entity light="type: spot;
+                            target: #orbitor;
+                            angle: 20;
+                            penumbra: 0.1;
+                            castShadow: true;
+                            color: #FFFF00"
+                    position="0 5 -5">
+            </a-entity>
+
+<!-- Adding LampPost -->
+            <a-entity gltf-model="#lamp_post"
+                    position="2 0 -5"
+                    scale="0.3 0.3 0.3"
+                    rotation="0 -180 0">
+            </a-entity>
+
+<!-- Adding Traffic Lights Pole -->
+            <a-entity gltf-model="#traffic_lights"
+                    position="-2 0 -5"
+                    scale="0.01 0.01 0.01"
+                    rotation="0 -90 0">
+            </a-entity>
+
+<!-- Adding Traffic Lights -->
+            <a-entity id="red-light" 
+                    light="type: point; 
+                            color: #F00; 
+                            castShadow: true; 
+                            distance: 0.12; 
+                            intensity: 30"
+                    position="-2.003 2.767 -4.716">
+            </a-entity>
+
+            <a-entity id="yellow-light" 
+                        light="type: point; color: #fef84d; castShadow: true; distance: 0.12; intensity: 30" 
+                        position="-2.003 2.553 -4.698">
+            </a-entity>
+
+            <a-entity id="green-light" 
+                        light="type: point; color: #fef84d; castShadow: true; distance: 0.12; intensity: 30" 
+                        position="-2 2.37827 -4.698">
+            </a-entity>
+            
+            <!-- Point light for lamp post -->
+            <a-entity id="lamp-light-point" 
+                        light="color: #ffdd00; groundColor: #ffdd00; distance: 1; intensity: 20; penumbra: 0.1; type: point; castShadow: true" 
+                        position="-0.531 3.12565 -4.99606">
+            </a-entity>
+            <a-entity id="lamp-light-spot" 
+                        light="color: #ffdd00; groundColor: #ffdd00; distance: 5; intensity: 5; penumbra: 0.1; type: spot; castShadow: true" 
+                        position="-0.54924 3.23162 -4.99837" 
+                        rotation="-90 0 0">
+            </a-entity>
+        </a-scene>
+    </body>
+</html>
